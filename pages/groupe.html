@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travail de groupe — Évolution d’un objet technique</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="groupe" data-root="../">
+<header class="container page-head">
+  <span class="badge home">Méthode</span>
+  <h1>Travailler en groupe</h1>
+  <p class="lead">Un projet STI2D se réussit à plusieurs : chacun a un rôle, les tâches sont réparties équitablement et le groupe sait à tout moment où il en est.</p>
+</header>
+<main class="container">
+
+<h2 style="margin-top:.8em">Constituer le groupe</h2>
+<ul>
+  <li>Groupes de <strong>2 élèves</strong> (3 maximum si l’effectif de la classe l’impose).</li>
+  <li>Un même objet technique ne doit pas être choisi par deux groupes de la classe : faites valider votre choix par le professeur.</li>
+</ul>
+
+<h2>Les rôles dans le groupe</h2>
+<p>Répartissez-les dès la séance 1. Un rôle n’est pas une tâche « réservée » : tout le monde participe à tout, mais chacun <strong>veille</strong> à un aspect du projet. Vous pouvez en changer entre deux séances.</p>
+<div class="grid g3">
+  <div class="card"><h3>🧭 Chef de projet</h3><p>Anime les échanges, veille à ce que chacun s’exprime, tranche si le groupe hésite, fait le point sur l’avancement avec le professeur.</p></div>
+  <div class="card"><h3>⏱ Responsable planning</h3><p>Tient à jour le Gantt <strong>effectif</strong> en fin de séance, signale les retards, propose les ajustements.</p></div>
+  <div class="card"><h3>📚 Responsable documentation</h3><p>Garde les sources (sites, dates, inventeurs), vérifie que les informations sont <strong>croisées</strong> et cohérentes.</p></div>
+  <div class="card"><h3>🎨 Responsable graphique</h3><p>Veille à la charte graphique, à la lisibilité et au soin de l’affiche A3.</p></div>
+  <div class="card"><h3>✅ Responsable cahier des charges</h3><p>Relit les 14 exigences, tient la checklist à jour avant le rendu.</p></div>
+</div>
+<div class="callout">
+  <strong>À deux ?</strong>
+  <p>Chacun cumule deux rôles. L’important est que le <strong>partage soit équitable</strong> et que vous puissiez décrire « le rôle de chacun et les parties communes » dans le dossier.</p>
+</div>
+
+<h2>Règles de fonctionnement</h2>
+<ul class="checklist">
+  <li><label><input type="checkbox" data-key="groupe-1"><span>Toutes les décisions importantes (objet, étapes retenues, idée du futur) sont <strong>discutées</strong> à plusieurs.</span></label></li>
+  <li><label><input type="checkbox" data-key="groupe-2"><span>Les tâches sont réparties <strong>avant</strong> de commencer, puis ajustées si quelqu’un est en avance ou en retard.</span></label></li>
+  <li><label><input type="checkbox" data-key="groupe-3"><span>Chacun écrit <strong>ce qu’il a réellement fait</strong> dans le Gantt effectif (c’est un des critères d’évaluation).</span></label></li>
+  <li><label><input type="checkbox" data-key="groupe-4"><span>Tous les fichiers sont dans <strong>un seul dossier partagé</strong>, avec des noms clairs (ex. <code>affiche_v2.pdf</code>).</span></label></li>
+  <li><label><input type="checkbox" data-key="groupe-5"><span>En cas de blocage ou de désaccord persistant, le groupe <strong>appelle le professeur</strong> plutôt que d’attendre.</span></label></li>
+  <li><label><input type="checkbox" data-key="groupe-6"><span>Le travail à faire à la maison est <strong>réparti</strong> et noté dans les cases 🏠 du Gantt.</span></label></li>
+</ul>
+<div class="card noprint" data-progress="groupe" style="padding:14px 20px">
+  <div class="progress"><div></div></div><small class="txt muted"></small>
+</div>
+
+<div class="card" style="margin:0 0 20px;">
+  <h3 style="margin-top:0">Ressources documentaires</h3>
+  <p>Ces documents vous aideront à bien organiser votre travail et à construire votre projet.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+    <a class="btn" href="documents/fiche-outil-projet-gantt.pdf" target="_blank" rel="noopener">Fiche outil projet Gantt</a>
+    <a class="btn" href="documents/fiche-outil-projet-kanban.pdf" target="_blank" rel="noopener">Fiche outil projet Kanban</a>
+    <a class="btn" href="documents/gestion-projet-gantt-A3.pdf" target="_blank" rel="noopener">Gestion projet Gantt A3</a>
+    <a class="btn" href="documents/gestion-projet-kanban-A3.pdf" target="_blank" rel="noopener">Gestion projet Kanban A3</a>
+  </div>
+</div>
+
+
+<h2>Suivi des tâches : tableau Kanban</h2>
+<p>La liste des tâches est la <strong>même</strong> que celle de votre diagramme de Gantt. Déplacez chaque carte au fil de l’avancement : <em>À faire → En cours → Terminé</em>. Le Kanban dit <em>où l’on en est maintenant</em>, le Gantt dit <em>quand</em>.</p>
+<div id="kanban" class="kanban"></div>
+<p class="muted" style="font-size:.88rem">Pour ajouter ou modifier des tâches, ou les répartir, utilisez l’<a href="gantt.html">outil Gantt</a>.</p>
+
+</main>
+<script src="../js/store.js"></script>
+<script src="../js/common.js"></script>
+<script>
+(function(){
+  let data = EvoStore.load();
+  const cols = [["todo","À faire"],["doing","En cours"],["done","Terminé ✔"]];
+  const esc = s => String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  function who(t){
+    if(t.who==="all") return "Tous";
+    if(t.who==="") return "à attribuer";
+    return (data.group.noms[+t.who]||"").trim() || ("Élève "+(+t.who+1));
+  }
+  function render(){
+    const k = document.getElementById("kanban");
+    k.innerHTML = "";
+    cols.forEach(([key,label],ci)=>{
+      const col = document.createElement("div");
+      col.className = "kcol";
+      const items = data.tasks.map((t,i)=>({t,i})).filter(x=>x.t.status===key);
+      col.innerHTML = `<h4>${label} <span class="muted">(${items.length})</span></h4>`;
+      items.forEach(({t,i})=>{
+        const c = document.createElement("div");
+        c.className = "kcard";
+        c.innerHTML = `${esc(t.name)||"<em>sans nom</em>"}<small>👤 ${esc(who(t))}</small><div class="mv"></div>`;
+        const mv = c.querySelector(".mv");
+        if(ci>0){ const b=document.createElement("button"); b.textContent="← "+cols[ci-1][1].replace(" ✔",""); b.onclick=()=>move(i,cols[ci-1][0]); mv.appendChild(b); }
+        if(ci<2){ const b=document.createElement("button"); b.textContent=cols[ci+1][1].replace(" ✔","")+" →"; b.onclick=()=>move(i,cols[ci+1][0]); mv.appendChild(b); }
+        col.appendChild(c);
+      });
+      k.appendChild(col);
+    });
+  }
+  function move(i,s){ data.tasks[i].status=s; EvoStore.save(data); render(); }
+  render();
+})();
+</script>
+</body>
+</html>

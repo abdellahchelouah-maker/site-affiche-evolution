@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagramme de Gantt — Évolution d’un objet technique</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="gantt" data-root="../">
+<header class="container page-head noprint">
+  <span class="badge home">Fiche outil</span>
+  <h1>Diagramme de Gantt : planifier son projet</h1>
+  <p class="lead">Un Gantt <strong>prévisionnel</strong> (fait en séance 1) et un Gantt <strong>effectif</strong> (mis à jour à la fin de chaque séance) : la comparaison des deux prouve que vous savez planifier et ajuster.</p>
+</header>
+
+<main class="container wide">
+
+<section class="noprint">
+  <div class="grid g2">
+    <div class="card">
+      <h3>✔ Intérêt</h3>
+      <p><strong>Planifier dans le temps</strong> les durées et les enchaînements des tâches pour aboutir dans les délais imposés.</p>
+      <p>Disposer d’une <strong>représentation visuelle</strong> du déroulement du projet pour savoir à chaque moment si l’on est dans les temps ou en retard.</p>
+    </div>
+    <div class="card">
+      <h3>✔ Comment le lire ?</h3>
+      <ul>
+        <li><strong>Axe horizontal</strong> : le temps (ici 3 séances de 3 h + le travail à la maison).</li>
+        <li><strong>Axe vertical</strong> : une ligne = une tâche du projet.</li>
+        <li><strong>Rectangle</strong> : la période pendant laquelle la tâche doit être faite.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>✔ Quelques conseils</h3>
+    <ul>
+      <li>Plusieurs tâches peuvent (et doivent) avoir lieu <strong>en même temps</strong> quand plusieurs personnes travaillent en simultané.</li>
+      <li>Certaines tâches <strong>ne peuvent pas se chevaucher</strong> : « la tâche X ne peut pas débuter avant la fin de la tâche Y » (ex. : on ne met pas en page avant d’avoir les images et les textes).</li>
+      <li>Version <strong>prévisionnelle</strong> : faite au début du projet, elle sert à vérifier où l’on en est et si l’on est dans les temps ou en retard.</li>
+      <li>Version <strong>effectif</strong> : refaite en cours de projet, elle prend en compte les tâches finies et celles restantes : elle permet de <strong>se réorganiser</strong> avant la fin.</li>
+    </ul>
+    <p><a href="../documents/fiche-outil-gantt.pdf" target="_blank">📄 Ouvrir la fiche outil d’origine (PDF)</a></p>
+  </div>
+
+  <div class="callout">
+    <strong>Mode d’emploi de l’outil ci-dessous</strong>
+    <ol style="margin:4px 0 0;padding-left:1.2em">
+      <li><strong>Séance 1</strong> – Renseignez le groupe, adaptez la liste des tâches, choisissez un responsable, puis coloriez les cases en vue <em>Prévisionnel</em>. Quand le groupe est d’accord, cliquez sur <em>Figer le prévisionnel</em>.</li>
+      <li><strong>Fin de chaque séance</strong> – Passez en vue <em>Effectif</em> et coloriez ce qui a réellement été fait. Notez les tâches ajoutées en cours de route.</li>
+      <li><strong>Séance 3</strong> – Dans la vue <em>Comparaison</em>, expliquez chaque écart dans le tableau « Ajustements justifiés ». Imprimez ensuite le prévisionnel, l’effectif et les tableaux pour le dossier (Imprimer → Enregistrer au format PDF).</li>
+    </ol>
+  </div>
+  <div class="callout warn">
+    <strong>Sauvegarde</strong>
+    <p>Vos données sont gardées dans le navigateur <em>de cet ordinateur</em>. À chaque fin de séance, cliquez sur <em>Exporter</em> et enregistrez le fichier dans votre dossier réseau. Au début de la séance suivante, utilisez <em>Importer</em> si vous changez de poste.</p>
+  </div>
+</section>
+
+<h2 class="noprint">Mon diagramme de Gantt</h2>
+
+<section class="card noprint">
+  <div class="fieldrow">
+    <label class="field">Classe<input type="text" id="f-classe" placeholder="1STI2D"></label>
+    <label class="field">N° ou nom du groupe<input type="text" id="f-groupe" placeholder="Groupe 1"></label>
+    <label class="field" style="grid-column:span 2">Support technique choisi<input type="text" id="f-support" placeholder="ex. : Lecteur audio"></label>
+  </div>
+  <div class="fieldrow">
+    <label class="field">Élève 1<input type="text" id="f-nom1" placeholder="Nom Prénom"></label>
+    <label class="field">Élève 2<input type="text" id="f-nom2" placeholder="Nom Prénom"></label>
+    <label class="field">Élève 3 (facultatif)<input type="text" id="f-nom3" placeholder="Nom Prénom"></label>
+  </div>
+</section>
+
+<div class="toolbar">
+  <div class="seg" role="group" aria-label="Vue">
+    <button data-view="plan" class="on">Prévisionnel</button>
+    <button data-view="real">Effectif</button>
+    <button data-view="compare">Comparaison</button>
+  </div>
+  <button class="btn small" id="btn-lock">Figer le prévisionnel</button>
+  <span id="lockstate"></span>
+  <span style="flex:1"></span>
+  <button class="btn small secondary" id="btn-add">+ Ajouter une tâche</button>
+  <button class="btn small secondary" id="btn-export">Exporter</button>
+  <button class="btn small secondary" id="btn-import">Importer</button>
+  <input type="file" id="file-import" accept=".json,application/json" class="hide">
+  <button class="btn small" id="btn-print">🖨 Imprimer / PDF</button>
+  <button class="btn small danger" id="btn-reset">Réinitialiser</button>
+</div>
+<p class="noprint" style="margin:0 2px;font-size:.88rem;color:var(--muted)"><span id="hint"></span> · <span id="savestate"></span></p>
+<div id="flash" class="callout warn hide noprint" role="status"></div>
+
+<div id="printhead" class="printonly"></div>
+
+<div class="gwrap">
+<table class="gantt" id="gantt">
+  <thead>
+    <tr>
+      <th rowspan="2" style="text-align:left;padding:8px 10px;border-left:0">Tâche</th>
+      <th rowspan="2">Responsable</th>
+      <th colspan="4" class="sg1">Séance 1</th>
+      <th colspan="4" class="sg2">Séance 2</th>
+      <th colspan="4" class="sg3">Séance 3</th>
+      <th rowspan="2"></th>
+    </tr>
+    <tr>
+      <th>1 h</th><th>2 h</th><th>3 h</th><th>🏠</th>
+      <th>1 h</th><th>2 h</th><th>3 h</th><th>🏠</th>
+      <th>1 h</th><th>2 h</th><th>3 h</th><th>🏠</th>
+    </tr>
+  </thead>
+  <tbody id="gbody"></tbody>
+</table>
+</div>
+<div class="legend">
+  <span><i style="background:var(--plan)"></i>Prévu</span>
+  <span><i style="background:var(--real)"></i>Réalisé</span>
+  <span>🏠 = travail à la maison entre deux séances (1 case = 1 h)</span>
+</div>
+
+<h2>Répartition des tâches</h2>
+<p class="noprint">Le partage doit être <strong>équitable</strong>, dans le prévisionnel comme dans le réel. Une tâche « commune » compte pour tous les élèves.</p>
+<div id="repartition"></div>
+
+<h2>Ajustements justifiés</h2>
+<p class="noprint">Toute différence entre le prévu et le réel doit être expliquée : <em>qu’est-ce qui a pris plus (ou moins) de temps, pourquoi, et qu’avez-vous décidé ?</em> Les tâches ajoutées après le verrouillage sont signalées « non prévue ».</p>
+<div id="ecarts"></div>
+
+</main>
+
+<script src="../js/store.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/gantt.js"></script>
+</body>
+</html>

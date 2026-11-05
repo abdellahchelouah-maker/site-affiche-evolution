@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Évaluation — Évolution d’un objet technique</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="bareme" data-root="../">
+<header class="container page-head noprint">
+  <span class="badge home">Évaluation</span>
+  <h1>Barème d’évaluation</h1>
+  <p class="lead">Une note <strong>sur 20</strong> qui évalue à la fois l’<strong>affiche A3</strong> et la <strong>gestion de projet</strong> : le Gantt prévisionnel, le Gantt effectif et les ajustements justifiés.</p>
+</header>
+
+<main class="container" id="bareme-root">
+
+<div class="grid g2 noprint">
+  <div class="card">
+    <h3>Comment lire la grille</h3>
+    <ul>
+      <li><strong>Oui</strong> : critère pleinement atteint (points maximum).</li>
+      <li><strong>Partiellement</strong> : la moitié des points.</li>
+      <li><strong>Non</strong> : 0 point.</li>
+    </ul>
+    <p class="muted" style="margin-bottom:0">Le texte sous chaque critère indique ce que le professeur regarde.</p>
+  </div>
+  <div class="card">
+    <h3>Répartition des points</h3>
+    <div class="table-wrap" style="margin:0"><table class="t"><tbody id="synth"></tbody></table></div>
+  </div>
+</div>
+
+<div class="callout noprint">
+  <strong>Élèves : autoévaluez-vous avant de rendre</strong>
+  <p>Remplissez la grille comme le ferait votre professeur. Si vous répondez « Partiellement » ou « Non », vous savez exactement quoi améliorer. Les points <strong>6, 7 et 8</strong> portent sur vos diagrammes de Gantt : ils valent 5 points sur 20.</p>
+</div>
+
+<h2 style="margin-top:1em" class="noprint">Identification</h2>
+<div class="card">
+  <div class="fieldrow" style="margin-top:0">
+    <label class="field">Classe<input type="text" id="b-classe" placeholder="1STI2D"></label>
+    <label class="field">Groupe<input type="text" id="b-groupe" placeholder="Groupe 1"></label>
+    <label class="field">Objet étudié<input type="text" id="b-objet" placeholder="ex. : Lecteur audio"></label>
+    <label class="field">Date<input type="text" id="b-date" placeholder="jj/mm/aaaa"></label>
+  </div>
+  <div class="fieldrow" style="margin-bottom:0">
+    <label class="field">Élève 1<input type="text" id="b-nom1"></label>
+    <label class="field">Élève 2<input type="text" id="b-nom2"></label>
+    <label class="field">Élève 3<input type="text" id="b-nom3"></label>
+  </div>
+</div>
+
+<h2>Grille</h2>
+<div class="table-wrap">
+<table class="t bareme">
+  <thead>
+    <tr><th>N°</th><th>Critère</th><th style="text-align:center">Oui</th><th style="text-align:center">Partiellement</th><th style="text-align:center">Non</th><th style="text-align:center">Points</th></tr>
+  </thead>
+  <tbody id="bbody"></tbody>
+</table>
+</div>
+
+<h3>Observations</h3>
+<textarea id="obs" style="min-height:90px" placeholder="Points forts, points à améliorer, remarques sur l’implication de chacun…"></textarea>
+
+<div class="totalbox"><span id="done">0 / 13 critères évalués</span><span>Note : <span class="big" id="total">0</span> / <span id="maxtotal">20</span></span></div>
+
+<div class="toolbar noprint">
+  <button class="btn" id="btn-save">💾 Enregistrer cette évaluation</button>
+  <button class="btn secondary" id="btn-print">🖨 Imprimer / PDF</button>
+  <button class="btn secondary" id="btn-new">Nouvelle grille</button>
+</div>
+
+<section class="noprint">
+  <h2>Évaluations enregistrées sur cet ordinateur</h2>
+  <p class="muted">Réservé au professeur : les évaluations sont conservées dans ce navigateur. Exportez-les en tableur (CSV) avant de changer de poste.</p>
+  <div id="saved"></div>
+  <p><button class="btn secondary small" id="btn-csv">⬇ Exporter toutes les notes (CSV)</button></p>
+</section>
+
+<section class="noprint">
+  <h2>Pour aller plus loin : repères de notation du Gantt</h2>
+  <div class="table-wrap">
+  <table class="t">
+    <thead><tr><th>Critère</th><th>Oui (maximum)</th><th>Partiellement</th><th>Non</th></tr></thead>
+    <tbody>
+      <tr><td><strong>6. Gantt prévisionnel</strong> (2 pts)</td><td>Tâches claires et concrètes, durées réalistes, enchaînements logiques, parallélisme, responsables et figé en séance 1.</td><td>Planning présent mais incomplet, peu réaliste ou sans responsables.</td><td>Absent, ou réalisé après coup.</td></tr>
+      <tr><td><strong>7. Gantt effectif</strong> (2 pts)</td><td>Reflète fidèlement le travail réalisé, mis à jour à chaque séance, tâches non prévues signalées.</td><td>Renseigné en fin de projet seulement, ou recopié du prévisionnel avec peu de différences crédibles.</td><td>Absent.</td></tr>
+      <tr><td><strong>8. Écarts et ajustements</strong> (1 pt)</td><td>Chaque écart significatif est expliqué (cause, décision, conséquence).</td><td>Quelques écarts expliqués, justifications vagues.</td><td>Aucune justification.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="muted">Un planning prévisionnel « parfait » identique au réel n’est pas un gage de réussite : il est invraisemblable. Ce qui est évalué, c’est la <strong>cohérence</strong> et la capacité à <strong>s’ajuster</strong>.</p>
+  <p><a href="../documents/grille-evaluation-origine.pdf" target="_blank">📄 Grille d’origine (PDF)</a> · <a href="../documents/fiche-outil-gantt.pdf" target="_blank">📄 Fiche outil Gantt (PDF)</a></p>
+</section>
+
+</main>
+<script src="../js/common.js"></script>
+<script src="../js/bareme.js"></script>
+</body>
+</html>
